@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: theatre-service
+  datasource:
+    url: jdbc:postgresql://localhost:5434/theatre-service
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
+
+server:
+  port: 0 # It will run the application with random port
+  servlet:
+    context-path: /theatre
+
+# Eureka client config
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:password@localhost:8761/eureka
+
+# Actuator Properties
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
